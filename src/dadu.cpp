@@ -7,7 +7,8 @@ void help(){
     std::cout<<"Usage: \n";
     std::cout<<"    Use 'dadu -h' or 'dadu --help' to show this message \n";
     std::cout<<"    Use argument in format of #d# where first number is the amount of dice to roll and second number is the size of the die \n";
-    std::cout<<"    e.g 4d6 would roll four six-sided die. Note that both numbers must be less than 2^31 \n";
+    std::cout<<"    e.g 4d6 would roll four six-sided die. \n";
+	std::cout<<"	Note that both numbers must be less than 2^31 \n";
 }
 
 void parseDice(std::string strin, int& dnumout, int& dsizout){
