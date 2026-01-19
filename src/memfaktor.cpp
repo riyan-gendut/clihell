@@ -49,8 +49,11 @@ int main(int argc, char** argv){
 				std::cout<<"Input must be a number greater than one and less than 2^63."<<std::endl;
 				return 0;
 			}
-			if (opsinput%2 != 0) limf = (opsinput+1)/2;
-			else limf = opsinput/2;
+			if (opsinput %2 == 0) limf = opsinput/2;
+			else if (opsinput %3 == 0) limf = opsinput/3;
+			else if (opsinput %5 == 0) limf = opsinput/5;
+			else if (opsinput %7 == 0) limf = opsinput/7;
+			else limf = (opsinput+1)/2;;
 			for(long i = 1; i<=limf; i++){
 				if((opsinput % i) == 0){
 					std::cout<<"The number "<<i<<" is a factor of "<<opsinput<<".\n";
