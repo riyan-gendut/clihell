@@ -7,16 +7,35 @@ void help(){
     std::cout<<"Usage: \n";
     std::cout<<"    Use 'dadu -h' or 'dadu --help' to show this message \n";
     std::cout<<"    Use argument in format of #d# where first number is the amount of dice to roll and second number is the size of the die \n";
-    std::cout<<"    e.g 4d6 would roll four six-sided die. \n";
+    std::cout<<"    e.g 4d6 would roll four six-sided die \n";
 	std::cout<<"    Note that both numbers must be less than 2^31 \n";
+
 }
+
+int parsenum(std::string instring){
+	int outnum = 0; 
+    try{
+		outnum = std::stoi(instring);
+    }
+    catch(const std::invalid_argument& ex){
+		std::cout<<"[ERROR] Input is not a number or otherwise invalid."<<std::endl;
+    }
+	catch(const std::out_of_range& ex){
+		std::cout<<"[ERROR] Input is too large."<<std::endl;
+    }
+	catch(...){
+		std::cout<<"[ERROR] Invalid input."<<std::endl;
+	}
+	return outnum;
+}
+
 
 void parseDice(std::string strin, int& dnumout, int& dsizout){
 	if (strin.find("d")==std::string::npos) std::cout<<"Please input die size and number as #d#. Use -h or --help for help.";
 	else{
 		int dposit = strin.find("d");
-		dnumout = std::stoi(strin.substr(0,dposit));
-		dsizout = std::stoi(strin.substr(dposit+1,strin.length()-dposit));
+		dnumout = parsenum(strin.substr(0,dposit));
+		dsizout = parsenum(strin.substr(dposit+1,strin.length()-dposit));
 //		std::cout<<dnumout<<" "<<dsizout<<"\n";
 	}
 }
@@ -31,7 +50,16 @@ int main(int argc, char** argv){
     	if(dinput=="-h"||dinput=="--help") help();
     	else {
 			parseDice(dinput,dnum,dsiz);
-//			std::cout<<dnum<<" "<<dsiz<<"\n";
+			if (dsiz==0){
+				std::cout<<"Cannot roll zero-sided die."<<std::endl;
+				return 0;
+			}
+			if (dnum==0){
+				std::cout<<"No die to roll."<<std::endl;
+				return 0;
+			}
+			if (dnum==1) std::cout<<"Rolling 1 die of size "<<dsiz<<"\n\n";
+			else std::cout<<"Rolling "<<dnum<<" dice of size "<<dsiz<<"\n\n";
 	    	std::random_device rd;
 	    	std::minstd_rand gen(rd());
 	    	std::uniform_int_distribution<> distrib(1,dsiz);
